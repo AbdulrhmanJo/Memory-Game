@@ -13,8 +13,10 @@ body {
   width: 100%;
   color: white;
   font-family: "Saira Stencil One", sans-serif;
-  background-image: url(../img/what-the-hex.png), linear-gradient(to right, #11998e, #38ef7d);
+  background-image: url(../img/what-the-hex.png);
   text-align: center;
+  animation: gradientBG 3s linear infinite;
+  background-size: 30%;
   display: grid;
   grid-template-rows: repeat(3, min-content);
   grid-template-columns: [full-start] minmax(1rem, 1fr) [center-start] minmax(min-content, 60rem) [center-end] minmax(1rem, 1fr) [full-end];
@@ -41,26 +43,80 @@ body {
   box-shadow: -1rem 1rem 0px pink;
   padding: 1rem;
   display: grid;
-  grid-template-rows: repeat(4, 1fr);
+  grid-template-rows: repeat(4, minmax(min-content, 10rem));
   grid-template-columns: repeat(5, 1fr);
   grid-gap: 1rem;
   grid-auto-flow: column; }
 
-p {
+.copyright {
+  font-family: sans-serif;
+  font-size: 1.2rem;
+  padding: 2rem;
   padding-top: 1rem;
   grid-row: 3/4;
   grid-column: center-start/center-end;
   color: #11998e; }
+  .copyright a {
+    color: pink;
+    font-size: 1.3rem; }
 
-.card {
-  border-radius: 10px;
+.card__container {
   height: 11rem;
   font-size: 3rem;
-  display: flex;
-  justify-content: center;
-  align-items: center; }
+  position: relative;
+  cursor: pointer;
+  perspective: 200rem;
+  transform-style: preserve-3d; }
+  .card__container:hover .card__face--front {
+    transform: rotateY(-180deg); }
+  .card__container:hover .card__face--back {
+    transform: rotateY(0); }
+
+.card__face {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  backface-visibility: hidden;
+  border-radius: 10px;
+  transition: all 1s ease;
+  background-color: white; }
+  .card__face--front {
+    background-image: url("../img/001-cat.png");
+    background-position: center;
+    background-size: 70%;
+    background-repeat: no-repeat;
+    filter: grayscale(100%) opacity(50%); }
+  .card__face--back {
+    transform: rotateY(180deg);
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+    .card__face--back img {
+      height: 80%; }
 
 .score {
-  background-color: pink;
   grid-row: 1/-1;
-  border-radius: 10px; }
+  grid-column: 5/6;
+  border-radius: 10px;
+  height: 100%;
+  font-size: 3rem;
+  display: grid;
+  grid-template-rows: repeat(4, 1fr);
+  align-items: center;
+  color: white; }
+  .score__moves {
+    grid-row: 1/2;
+    display: flex;
+    flex-direction: column; }
+  .score__timer {
+    grid-row: 2/3;
+    display: flex;
+    flex-direction: column; }
+  .score__reset img {
+    width: 50%; }
+
+@keyframes gradientBG {
+  0% {
+    background-position: top; }
+  100% {
+    background-position: bottom; } }
