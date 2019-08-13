@@ -1,4 +1,4 @@
-//genral
+//-----genral-----
 *,
 *::after,
 *::before {
@@ -19,7 +19,7 @@ body {
   background-image: url(../img/what-the-hex.png);
   text-align: center;
 
-  animation: gradientBG 3s linear infinite;
+  animation: animateBG 3s linear infinite;
   background-size: 30%;
 
   display: grid;
@@ -32,6 +32,7 @@ body {
   align-content: center;
 }
 
+//----text-----
 .heading-1 {
   padding: 1rem;
   font-size: 6rem;
@@ -41,22 +42,6 @@ body {
   align-self: start;
   justify-self: stretch;
   color: #11998e;
-}
-
-.container {
-  grid-row: 2/3;
-  grid-column: center-start / center-end;
-  color: black;
-  background-color: #11998e;
-  border-radius: 10px;
-  justify-content: center;
-  box-shadow: -1rem 1rem 0px pink;
-  padding: 1rem;
-  display: grid;
-  grid-template-rows: repeat(4, minmax(min-content, 10rem));
-  grid-template-columns: repeat(5, 1fr);
-  grid-gap: 1rem;
-  grid-auto-flow: column;
 }
 
 .copyright {
@@ -74,26 +59,41 @@ body {
   }
 }
 
+
+//------------board------------
+.container {
+  grid-row: 2/3;
+  grid-column: center-start / center-end;
+  color: black;
+  background-color: #11998e;
+  border-radius: 10px;
+  justify-content: center;
+  box-shadow: -1rem 1rem 0px pink;
+  padding: 1rem;
+  display: grid;
+  grid-template-rows: repeat(4, minmax(min-content, 10rem));
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 1rem;
+  grid-auto-flow: column;
+}
+
+//-----------card-----------
 .card__container {
   font-size: 3rem;
-
-  //   background-image: url(../img/025-cat.png);
   position: relative;
   cursor: pointer;
   perspective: 200rem;
-
   transform-style: preserve-3d;
-
 }
 
-.card__container.open{
-    .card__face--front {
-        transform: rotateY(-180deg);
-      }
-    
-    .card__face--back {
-        transform: rotateY(0);
-      }
+.card__container.open {
+  .card__face--front {
+    transform: rotateY(-180deg);
+  }
+
+  .card__face--back {
+    transform: rotateY(0);
+  }
 }
 
 .card__face {
@@ -124,8 +124,8 @@ body {
   }
 }
 
+// -----------score-------
 .score {
-  //   background-color: pink;
   grid-row: 1/-1;
   grid-column: 5/6;
   border-radius: 10px;
@@ -149,13 +149,16 @@ body {
   }
 
   &__reset {
-    img {
+    cursor: pointer;
+    &--img {
       width: 50%;
     }
   }
 }
 
-@keyframes gradientBG {
+
+//-----animation
+@keyframes animateBG {
   0% {
     background-position: top;
   }

@@ -21,7 +21,9 @@
   //------------controller MODEL-----------
 
   var controller = {
-    // 1- create card
+    checkBox: [],
+    firstClick: true,
+
     createCards: function() {
       let counter = 0;
       while (counter < 2) {
@@ -57,20 +59,60 @@
       }
     },
 
-    init: function() {
-      this.createCards();
+    openCard: function(event) {
+      const element = event.target;
+      if (element.classList[0] === "card__face" && this.checkBox.length < 2) {
+        this.checkBox.push(element);
+        interface.showCard(element);
 
+        if (this.firstClick) {
+          this.setUpTimer();
+          this.firstClick = false;
+        }
+      }
+    },
+
+    setUpTimer: function() {
+      sec = 0;
+      min = 0;
+
+      const counter = function() {
+        if (++sec === 60) {
+          sec = 0;
+          if (++min === 60) {
+            min = 0;
+          }
+        }
+
+        time =
+          (min < 10 ? "0" + min : min) + ":" + (sec < 10 ? "0" + sec : sec);
+
+        interface.renderTime(time);
+      };
+
+      setInterval(counter, 1000);
+    },
+
+    setUpEventListener: function() {
       document
         .querySelector(".container")
-        .addEventListener("click", function(event) {
-          if (event.target.classList[0] === "card__face") {
-            event.target.parentElement.classList.add("open");
-          }
-        });
+        .addEventListener("click", this.openCard.bind(this));
+
+      // if(element.classList[0] === "score__reset--img"){
+      //   //reset()
+      //   console.log('reset');
+      // }
+    },
+
+    init: function() {
+      //create cards
+      this.createCards();
       //shuffle the cards
       this.shuffleCards(data.getAllcards());
+      //add the interface to the page
       interface.init();
-      //   data.init();
+      //add All the Event Listener in the game
+      this.setUpEventListener();
     }
   };
 
@@ -83,9 +125,22 @@
       cards.forEach(card => {
         container.appendChild(card);
       });
+      
+      const timeEl = document.querySelector(".time");
+      timeEl.textContent = "00:00";
+      
+      const movesEl = document.querySelector(".moves");
+      movesEl.textContent = "0";
     },
 
-    render: function() {}
+    showCard: function(card) {
+      card.parentElement.classList.add("open");
+    },
+
+    renderTime: function(time) {
+      const timeEl = document.querySelector(".time");
+      timeEl.textContent = time;
+    }
   };
 
   controller.init();
