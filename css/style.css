@@ -61,16 +61,17 @@ body {
     font-size: 1.3rem; }
 
 .card__container {
-  height: 11rem;
   font-size: 3rem;
   position: relative;
   cursor: pointer;
   perspective: 200rem;
   transform-style: preserve-3d; }
-  .card__container:hover .card__face--front {
-    transform: rotateY(-180deg); }
-  .card__container:hover .card__face--back {
-    transform: rotateY(0); }
+
+.card__container.open .card__face--front {
+  transform: rotateY(-180deg); }
+
+.card__container.open .card__face--back {
+  transform: rotateY(0); }
 
 .card__face {
   position: absolute;

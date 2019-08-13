@@ -10,7 +10,7 @@
     },
 
     getAllcards: function() {
-      return cards;
+      return this.cards;
     },
 
     init: function() {
@@ -37,18 +37,39 @@
         }
         counter++;
       }
-      interface.render();
     },
-
-    // 3- add the card to UI
 
     getCards: function() {
       return data.cards;
     },
 
+    shuffleCards: function(cards) {
+      let currentIndex = cards.length,
+        tempValue,
+        randomIndex;
+
+      while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+        tempValue = cards[currentIndex];
+        cards[currentIndex] = cards[randomIndex];
+        cards[randomIndex] = tempValue;
+      }
+    },
+
     init: function() {
       this.createCards();
-      //   interface.init();
+
+      document
+        .querySelector(".container")
+        .addEventListener("click", function(event) {
+          if (event.target.classList[0] === "card__face") {
+            event.target.parentElement.classList.add("open");
+          }
+        });
+      //shuffle the cards
+      this.shuffleCards(data.getAllcards());
+      interface.init();
       //   data.init();
     }
   };
@@ -56,32 +77,16 @@
   //------------interface MODEL-----------
 
   var interface = {
-    init: function() {},
-
-    render: function() {
+    init: function() {
       const container = document.querySelector(".container");
       const cards = controller.getCards();
       cards.forEach(card => {
         container.appendChild(card);
       });
-    }
+    },
+
+    render: function() {}
   };
 
   controller.init();
 })();
-
-const container = document.querySelector(".container");
-
-// for (let i = 0; i < 16; i++) {
-//   const el = document.createElement("div");
-//   el.classList.add("card");
-//   el.style.color = "black";
-//   el.style.backgroundColor = "white";
-//   el.style.backgroundImage = "url('img/025-cat.png')";
-//   container.appendChild(el);
-// }
-
-// // const score = document.createElement("div");
-// score.textContent = "score";
-// score.classList.add("score");
-// container.appendChild(score);
