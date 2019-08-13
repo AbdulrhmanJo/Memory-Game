@@ -23,6 +23,7 @@
   var controller = {
     checkBox: [],
     firstClick: true,
+    mataches: 0,
 
     createCards: function() {
       let counter = 0;
@@ -30,10 +31,7 @@
         for (let i = 1; i <= 8; i++) {
           const cardContainer = document.createElement("div");
           cardContainer.classList.add("card__container");
-          cardContainer.innerHTML = `<div class="card__face card__face--front"></div>
-                                           <div class="card__face card__face--back">
-                                                <img src="img/${i}-cat.png" alt="cat">
-                                           </div>`;
+          cardContainer.innerHTML = `<div class="card__face card__face--front"></div><div class="card__face card__face--back"><img src="img/${i}-cat.png" alt="cat"></div>`;
           // 2- add cards to card array
           data.addcard(cardContainer);
         }
@@ -62,14 +60,36 @@
     openCard: function(event) {
       const element = event.target;
       if (element.classList[0] === "card__face" && this.checkBox.length < 2) {
-        this.checkBox.push(element);
+        this.checkBox.push(element.nextSibling);
         interface.showCard(element);
 
         if (this.firstClick) {
           this.setUpTimer();
           this.firstClick = false;
         }
+
+        if (this.checkBox.length === 2) {
+          this.checkCard();
+        }
       }
+    },
+
+    checkCard: function() {
+      const firstCard = this.checkBox[0].firstChild;
+      const secondCard = this.checkBox[1].firstChild;
+
+      if (firstCard.getAttribute("src") === secondCard.getAttribute("src")) {
+        console.log("match");
+        this.mataches++;
+      } else {
+        interface.closeCard(this.checkBox);
+      }
+      this.checkBox = [];
+      interface.updateMoves(this.incrementMoves());
+    },
+
+    incrementMoves: function() {
+      return ++data.moves;
     },
 
     setUpTimer: function() {
@@ -87,7 +107,7 @@
         time =
           (min < 10 ? "0" + min : min) + ":" + (sec < 10 ? "0" + sec : sec);
 
-        interface.renderTime(time);
+        interface.updateTime(time);
       };
 
       setInterval(counter, 1000);
@@ -125,10 +145,10 @@
       cards.forEach(card => {
         container.appendChild(card);
       });
-      
+
       const timeEl = document.querySelector(".time");
       timeEl.textContent = "00:00";
-      
+
       const movesEl = document.querySelector(".moves");
       movesEl.textContent = "0";
     },
@@ -137,9 +157,27 @@
       card.parentElement.classList.add("open");
     },
 
-    renderTime: function(time) {
+    closeCard: function(openCards) {
+      openCards.forEach(card => {
+        setTimeout(() => {
+          card.parentElement.classList.add("animated", "shake");
+        }, 800);
+
+        setTimeout(() => {
+          card.parentElement.classList.remove("open");
+          card.parentElement.classList.remove("shake");
+        }, 1800);
+      });
+    },
+
+    updateTime: function(time) {
       const timeEl = document.querySelector(".time");
       timeEl.textContent = time;
+    },
+
+    updateMoves: function(moves) {
+      const movesEl = document.querySelector(".moves");
+      movesEl.textContent = moves;
     }
   };
 
