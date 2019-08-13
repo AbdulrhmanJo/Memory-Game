@@ -79,7 +79,7 @@
       const secondCard = this.checkBox[1].firstChild;
 
       if (firstCard.getAttribute("src") === secondCard.getAttribute("src")) {
-        console.log("match");
+        interface.match(this.checkBox);
         this.mataches++;
       } else {
         interface.closeCard(this.checkBox);
@@ -160,13 +160,13 @@
     closeCard: function(openCards) {
       openCards.forEach(card => {
         setTimeout(() => {
-          card.parentElement.classList.add("animated", "shake");
-        }, 800);
+          card.parentElement.classList.add("animated", "flash");
+        }, 600);
 
         setTimeout(() => {
           card.parentElement.classList.remove("open");
-          card.parentElement.classList.remove("shake");
-        }, 1800);
+          card.parentElement.classList.remove("flash");
+        }, 1700);
       });
     },
 
@@ -178,7 +178,22 @@
     updateMoves: function(moves) {
       const movesEl = document.querySelector(".moves");
       movesEl.textContent = moves;
-    }
+    },
+    
+    match: function(cards){
+      cards.forEach(card => {
+        setTimeout(() => {
+          card.parentElement.classList.add("animated", "tada");
+          card.style.backgroundColor="pink";
+        }, 800);
+        
+        setTimeout(() => {
+          card.style.opacity="0";
+        }, 1500);
+      });
+    },
+    
+    
   };
 
   controller.init();
