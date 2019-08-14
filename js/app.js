@@ -1,7 +1,8 @@
 (function() {
+  
   //------------DATA MODEL-----------
-
   var data = {
+    
     moves: 0,
     cards: [],
 
@@ -13,17 +14,24 @@
       return this.cards;
     },
 
+    setMoves: function(moves){
+      this.moves = moves;
+    },
+    
     init: function() {
-      console.log(this.cards);
+      this.setMoves(0);
+      this.cards = [];
     }
+    
   };
 
   //------------controller MODEL-----------
-
   var controller = {
+    
     checkBox: [],
     firstClick: true,
     mataches: 0,
+    timer: 0,
 
     createCards: function() {
       let counter = 0;
@@ -59,7 +67,12 @@
 
     openCard: function(event) {
       const element = event.target;
-      if (element.classList[0] === "card__face" && this.checkBox.length < 2) {
+      if (
+        element.classList[0] === "card__face" &&
+        this.checkBox.length < 2 &&
+        !element.parentElement.classList.contains("open") &&
+        !this.checkBox.includes(element)
+      ) {
         this.checkBox.push(element.nextSibling);
         interface.showCard(element);
 
@@ -70,6 +83,10 @@
 
         if (this.checkBox.length === 2) {
           this.checkCard();
+        }
+
+        if (this.mataches === 8) {
+          this.stopeTimer(this.timer);
         }
       }
     },
@@ -110,7 +127,7 @@
         interface.updateTime(time);
       };
 
-      setInterval(counter, 1000);
+      this.timer = setInterval(counter, 1000);
     },
 
     setUpEventListener: function() {
@@ -118,13 +135,29 @@
         .querySelector(".container")
         .addEventListener("click", this.openCard.bind(this));
 
-      // if(element.classList[0] === "score__reset--img"){
-      //   //reset()
-      //   console.log('reset');
-      // }
+      document
+        .querySelector(".score__reset")
+        .addEventListener("click", this.resetGame.bind(this));
+    },
+
+    stopeTimer: function(timer) {
+      clearInterval(timer);
+    },
+
+    resetGame: function() {
+      data.setMoves(0);
+      this.checkBox = [];
+      this.firstClick = true;
+      this.matches = 0;
+      interface.resetScore();
+      clearTimeout(this.timer);
+      this.shuffleCards(data.getAllcards());
+      interface.updateCard();
     },
 
     init: function() {
+      //clear the store
+      data.init();
       //create cards
       this.createCards();
       //shuffle the cards
@@ -139,13 +172,18 @@
   //------------interface MODEL-----------
 
   var interface = {
+    
     init: function() {
       const container = document.querySelector(".container");
       const cards = controller.getCards();
       cards.forEach(card => {
         container.appendChild(card);
       });
+      
+      this.resetScore();
+    },
 
+    resetScore: function() {
       const timeEl = document.querySelector(".time");
       timeEl.textContent = "00:00";
 
@@ -179,21 +217,37 @@
       const movesEl = document.querySelector(".moves");
       movesEl.textContent = moves;
     },
-    
-    match: function(cards){
+
+    match: function(cards) {
       cards.forEach(card => {
         setTimeout(() => {
           card.parentElement.classList.add("animated", "tada");
-          card.style.backgroundColor="pink";
+          card.style.backgroundColor = "pink";
         }, 800);
-        
+
         setTimeout(() => {
-          card.style.opacity="0";
-        }, 1500);
+          card.style.opacity = ".3";
+        }, 1200);
+
+        setTimeout(() => {
+          card.style.display = "none";
+        }, 1600);
       });
     },
     
-    
+    updateCard: function(){
+      const container = document.querySelector(".container");
+      const cards = controller.getCards();
+      cards.forEach(card => {
+        card.classList.remove("open");
+        card.classList.remove("tada");
+        
+        card.children[1].style.backgroundColor = 'white';
+        card.children[1].style.opacity = "1";
+        card.children[1].style.display = "flex";
+        container.appendChild(card);
+      });
+    }
   };
 
   controller.init();
