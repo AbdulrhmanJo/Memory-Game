@@ -60,7 +60,10 @@ body {
   justify-self: stretch;
   color: #11998e;
   
- 
+  @media only screen and (max-width: 35em) {
+    font-size: 5rem
+
+  }
 }
 
 .copyright {
