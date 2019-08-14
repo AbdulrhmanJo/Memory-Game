@@ -149,12 +149,33 @@ body {
   }
 
   &__reset {
+    grid-row: 3/4;
+    border: pink 1px solid;
+    justify-self: center;
+    align-self: center;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60%;
+    width: 80%;
+    border-radius: 10px;
+    background-color: pink;
+    box-shadow: -0.4rem 0.5rem 0.1rem white;
+    transition: all .2s;
+    transform: translateX(.4rem);
     &--img {
-      width: 50%;
+      width: 45%;
+    }
+    
+    &:active{
+      box-shadow: none;
+      transform: translate(-.5rem,.4rem);
+
     }
   }
 }
+
 
 
 //-----animation

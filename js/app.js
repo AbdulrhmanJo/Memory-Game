@@ -1,8 +1,6 @@
 (function() {
-  
   //------------DATA MODEL-----------
   var data = {
-    
     moves: 0,
     cards: [],
 
@@ -14,20 +12,18 @@
       return this.cards;
     },
 
-    setMoves: function(moves){
+    setMoves: function(moves) {
       this.moves = moves;
     },
-    
+
     init: function() {
       this.setMoves(0);
       this.cards = [];
     }
-    
   };
 
   //------------controller MODEL-----------
   var controller = {
-    
     checkBox: [],
     firstClick: true,
     mataches: 0,
@@ -154,7 +150,7 @@
       this.shuffleCards(data.getAllcards());
       interface.updateCard();
     },
-
+    
     init: function() {
       //clear the store
       data.init();
@@ -173,16 +169,6 @@
 
   var interface = {
     
-    init: function() {
-      const container = document.querySelector(".container");
-      const cards = controller.getCards();
-      cards.forEach(card => {
-        container.appendChild(card);
-      });
-      
-      this.resetScore();
-    },
-
     resetScore: function() {
       const timeEl = document.querySelector(".time");
       timeEl.textContent = "00:00";
@@ -234,20 +220,31 @@
         }, 1600);
       });
     },
-    
-    updateCard: function(){
+
+    updateCard: function() {
       const container = document.querySelector(".container");
       const cards = controller.getCards();
       cards.forEach(card => {
         card.classList.remove("open");
         card.classList.remove("tada");
-        
-        card.children[1].style.backgroundColor = 'white';
+
+        card.children[1].style.backgroundColor = "white";
         card.children[1].style.opacity = "1";
         card.children[1].style.display = "flex";
         container.appendChild(card);
       });
+    },
+    
+    init: function() {
+      const container = document.querySelector(".container");
+      const cards = controller.getCards();
+      cards.forEach(card => {
+        container.appendChild(card);
+      });
+
+      this.resetScore();
     }
+    
   };
 
   controller.init();
