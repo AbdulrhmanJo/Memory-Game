@@ -7,6 +7,12 @@
 
 html {
   font-size: 62.5%; }
+  @media only screen and (max-width: 38.75em) {
+    html {
+      font-size: 50%; } }
+  @media only screen and (max-width: 35em) {
+    html {
+      font-size: 45%; } }
 
 body {
   height: 100vh;
@@ -16,12 +22,15 @@ body {
   background-image: url(../img/what-the-hex.png);
   text-align: center;
   animation: animateBG 3s linear infinite;
-  background-size: 30%;
   display: grid;
   grid-template-rows: repeat(3, min-content);
   grid-template-columns: [full-start] minmax(1rem, 1fr) [center-start] minmax(min-content, 60rem) [center-end] minmax(1rem, 1fr) [full-end];
   grid-row-gap: 2rem;
   align-content: center; }
+  @media only screen and (max-width: 35em) {
+    body {
+      grid-template-columns: [full-start] minmax(1rem, 1fr) [center-start] minmax(min-content, 40rem) [center-end] minmax(1rem, 1fr) [full-end];
+      grid-row-gap: 3rem; } }
 
 .heading-1 {
   padding: 1rem;
@@ -29,7 +38,7 @@ body {
   text-shadow: -0.5rem 0.5rem 0.1rem pink;
   grid-row: 1/2;
   grid-column: center-start/center-end;
-  align-self: start;
+  align-self: stretch;
   justify-self: stretch;
   color: #11998e; }
 
@@ -59,6 +68,10 @@ body {
   grid-template-columns: repeat(5, 1fr);
   grid-gap: 1rem;
   grid-auto-flow: column; }
+  @media only screen and (max-width: 35em) {
+    .container {
+      grid-template-rows: repeat(5, minmax(min-content, 8rem));
+      grid-template-columns: repeat(4, 1fr); } }
 
 .card__container {
   font-size: 3rem;
@@ -105,14 +118,28 @@ body {
   grid-template-rows: repeat(4, 1fr);
   align-items: center;
   color: white; }
+  @media only screen and (max-width: 35em) {
+    .score {
+      grid-row: 1/2;
+      grid-column: 1/-1;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: 1fr; } }
   .score__moves {
     grid-row: 1/2;
     display: flex;
     flex-direction: column; }
+    @media only screen and (max-width: 35em) {
+      .score__moves {
+        grid-row: 1/2;
+        grid-column: 1/2; } }
   .score__timer {
     grid-row: 2/3;
     display: flex;
     flex-direction: column; }
+    @media only screen and (max-width: 35em) {
+      .score__timer {
+        grid-row: 1/2;
+        grid-column: 2/3; } }
   .score__reset {
     grid-row: 3/4;
     border: pink 1px solid;
@@ -127,8 +154,14 @@ body {
     border-radius: 10px;
     background-color: pink;
     box-shadow: -0.4rem 0.5rem 0.1rem white;
-    transition: all .2s;
+    transition: all 0.2s;
     transform: translateX(0.4rem); }
+    @media only screen and (max-width: 35em) {
+      .score__reset {
+        grid-row: 1/2;
+        grid-column: 3/4;
+        height: 60%;
+        width: 60%; } }
     .score__reset--img {
       width: 45%; }
     .score__reset:active {
