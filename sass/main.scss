@@ -11,7 +11,7 @@ html {
   @media only screen and (max-width: 38.75em) {
     font-size: 50%;
   }
-  
+
   @media only screen and (max-width: 35em) {
     font-size: 45%;
   }
@@ -30,12 +30,12 @@ body {
   // background-size:;
 
   display: grid;
-  grid-template-rows:  repeat(3, max-content);
+  grid-template-rows: repeat(3, max-content);
   grid-template-columns:
-    [full-start] minmax(1rem,1fr)
+    [full-start] minmax(1rem, 1fr)
     [center-start] minmax(min-content, 60rem) [center-end]
     minmax(1rem, 1fr) [full-end];
-  grid-row-gap: 5rem;
+  grid-row-gap: 4rem;
   align-content: center;
 
   @media only screen and (max-width: 35em) {
@@ -43,11 +43,8 @@ body {
       [full-start] minmax(2rem, 1fr)
       [center-start] minmax(min-content, 40rem) [center-end]
       minmax(2rem, 1fr) [full-end];
-      grid-row-gap: 5rem;
-
+    grid-row-gap: 3rem;
   }
-  
-  
 }
 
 //----text-----
@@ -59,10 +56,9 @@ body {
   align-self: center;
   justify-self: stretch;
   color: #11998e;
-  
-  @media only screen and (max-width: 35em) {
-    font-size: 5rem
 
+  @media only screen and (max-width: 35em) {
+    font-size: 5rem;
   }
 }
 
@@ -91,7 +87,7 @@ body {
   padding: 1rem;
   display: grid;
   grid-template-rows: repeat(4, minmax(min-content, 10rem));
-  grid-template-columns: repeat(5,1fr);
+  grid-template-columns: repeat(5, 1fr);
   grid-gap: 1rem;
   grid-auto-flow: column;
 
@@ -191,7 +187,7 @@ body {
     @media only screen and (max-width: 35em) {
       grid-row: 1/2;
       grid-column: 3/4;
-      
+
       height: 60%;
       width: 60%;
     }
@@ -222,6 +218,55 @@ body {
   }
 }
 
+//popup
+.popup {
+  width: 30rem;
+  height: 40rem;
+  background-color: white;
+  border-radius: 10px;
+  grid-row: 2/3;
+  grid-column: 2/3;
+  justify-self: center;
+  align-self: center;
+  z-index: 1;
+  color: #11998e;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  overflow: hidden;
+  justify-items: center;
+  &__img {
+    grid-row: 1/2;
+    width: 60%;
+    align-self: end;
+  }
+
+  &__msg {
+    grid-row: 2/3;
+    font-size: 4rem;
+    text-shadow: -0.3rem 0.3rem 0.1rem pink;
+  }
+  .btn {
+    background-color: pink;
+    border: none;
+    color: white;
+    font-size: 2.3rem;
+    justify-self: stretch;
+  }
+  
+  .rating{
+    grid-row: 3/4;
+  }
+  
+}
+.fa, .fas{
+  font-size: 2.5rem;
+  font-weight: 100;
+  color: rgb(253, 225, 68);
+}
+
+.checked{
+  font-weight: 900;
+}
 //-----animation
 @keyframes animateBG {
   0% {

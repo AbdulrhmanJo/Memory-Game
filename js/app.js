@@ -26,7 +26,7 @@
   var controller = {
     checkBox: [],
     firstClick: true,
-    mataches: 0,
+    matches: 0,
     timer: 0,
 
     createCards: function() {
@@ -81,8 +81,9 @@
           this.checkCard();
         }
 
-        if (this.mataches === 8) {
+        if (this.matches === 8) {
           this.stopeTimer(this.timer);
+          this.popup();
         }
       }
     },
@@ -93,7 +94,7 @@
 
       if (firstCard.getAttribute("src") === secondCard.getAttribute("src")) {
         interface.match(this.checkBox);
-        this.mataches++;
+        this.matches++;
       } else {
         interface.closeCard(this.checkBox);
       }
@@ -150,7 +151,27 @@
       this.shuffleCards(data.getAllcards());
       interface.updateCard();
     },
+
+    rating: function() {
+      const moves = data.moves;
+
+      if (moves <= 16) {
+        return 5;
+      } else if (moves >= 17 && moves <= 21) {
+        return 4;
+      } else if (moves >= 22 && moves <= 26) {
+        return 3;
+      } else if (moves >= 27 && moves <= 30) {
+        return 2;
+      } else {
+        return 1;
+      }
+    },
     
+    popup:function(){
+      interface.addRating();
+    },
+
     init: function() {
       //clear the store
       data.init();
@@ -168,7 +189,6 @@
   //------------interface MODEL-----------
 
   var interface = {
-    
     resetScore: function() {
       const timeEl = document.querySelector(".time");
       timeEl.textContent = "00:00";
@@ -214,10 +234,6 @@
         setTimeout(() => {
           card.style.opacity = ".3";
         }, 1200);
-
-        setTimeout(() => {
-          card.style.display = "none";
-        }, 1600);
       });
     },
 
@@ -234,7 +250,19 @@
         container.appendChild(card);
       });
     },
-    
+
+    addRating: function() {
+      const stars = document.querySelectorAll(".popup__rating--star");
+      console.log(stars);
+      
+      const playerRate = controller.rating();
+      console.log(playerRate);
+
+      for (let i = 0; i < playerRate; i++) {
+        stars[i].classList.add("checked");
+      }
+    },
+
     init: function() {
       const container = document.querySelector(".container");
       const cards = controller.getCards();
@@ -244,7 +272,6 @@
 
       this.resetScore();
     }
-    
   };
 
   controller.init();
