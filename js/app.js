@@ -83,7 +83,7 @@
 
         if (this.matches === 8) {
           this.stopeTimer(this.timer);
-          this.popup();
+          interface.popupMsg();
         }
       }
     },
@@ -135,6 +135,10 @@
       document
         .querySelector(".score__reset")
         .addEventListener("click", this.resetGame.bind(this));
+
+      document
+        .querySelector(".popup__btn")
+        .addEventListener("click", this.playAgain.bind(this));
     },
 
     stopeTimer: function(timer) {
@@ -152,7 +156,7 @@
       interface.updateCard();
     },
 
-    rating: function() {
+    playerRate: function() {
       const moves = data.moves;
 
       if (moves <= 16) {
@@ -167,9 +171,10 @@
         return 1;
       }
     },
-    
-    popup:function(){
-      interface.addRating();
+
+    playAgain: function() {
+      this.resetGame();
+      interface.closeMsg();
     },
 
     init: function() {
@@ -253,14 +258,36 @@
 
     addRating: function() {
       const stars = document.querySelectorAll(".popup__rating--star");
-      console.log(stars);
-      
-      const playerRate = controller.rating();
-      console.log(playerRate);
+
+      const playerRate = controller.playerRate();
 
       for (let i = 0; i < playerRate; i++) {
         stars[i].classList.add("checked");
       }
+    },
+
+    popupMsg: function() {
+      this.addRating();
+
+      setTimeout(() => {
+        const wrabber = document.querySelector(".popup-wrapper");
+        wrabber.style.display = "block";
+      }, 1800);
+
+      setTimeout(() => {
+        const popup = document.querySelector(".popup");
+        popup.classList.add("animated", "tada");
+        popup.style.display = "grid";
+      }, 1850);
+    },
+
+    closeMsg: function() {
+      const wrabber = document.querySelector(".popup-wrapper");
+      wrabber.style.display = "none";
+
+      const popup = document.querySelector(".popup");
+      popup.classList.remove("animated", "tada");
+      popup.style.display = "none";
     },
 
     init: function() {
